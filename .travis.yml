@@ -8,7 +8,7 @@ after_success:
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" &&
     docker tag mozamimy/cerebro `cat VERSION` &&
     docker push mozamimy/cerebro:latest &&
-    docker push mozamimy/cerebro:`cat VERSION`
+    docker push mozamimy/cerebro:`cat VERSION`;
     fi
 notifications:
   on_success: always

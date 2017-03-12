@@ -1,0 +1,20 @@
+play.crypto.secret = "{{ var "APPLICATION_SECRET" }}"
+play.i18n.langs = ["en"]
+play.modules.enabled += "controllers.auth.Module"
+play.modules.enabled += "elastic.ElasticModule"
+pidfile.path = "/dev/null"
+
+hosts = [
+{{ range $i, $targets := var "HOSTS" | split " " }}
+{{ $split_targets := $targets | split "," }}
+  {
+    name = "{{ index $split_targets 0 | trim }}"
+    host = "{{ index $split_targets 1 | trim }}"
+  },
+{{ end }}
+]
+
+slick.dbs.default.driver = "slick.driver.{{ var "DBS_DEFAULT_DRIVER" | default "SQLiteDriver" }}$"
+slick.dbs.default.db.driver = {{ var "DBS_DEFAULT_DB_DRIVER" | default "org.sqlite.JDBC" }}
+slick.dbs.default.db.url = {{ var "DBS_DEFAULT_DB_URL" | default "\"jdbc:sqlite:\"./cerebro.db" }}
+play.evolutions.db.default.autoApply = true

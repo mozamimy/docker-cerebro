@@ -1,0 +1,38 @@
+version: '3'
+services:
+  cerebro:
+    build:
+      context: .
+      args:
+        ENTRYKIT_VERSION: 0.4.0
+        VERSION: 0.6.1
+        URL: 'https://github.com/lmenezes/cerebro.git'
+        TIMEZONE: Asia/Tokyo
+    ports:
+      - '9000:9000'
+    environment:
+      # DO NOT USE this value in production environment!
+      APPLICATION_SECRET: aifai5oosai0go=ereisiith8phaer2eegie=re9euhaengei5Xo2eiTho1Ee5Ahvae$k9
+      # Use SQLite3 in app container
+      DBS_DEFAULT_DRIVER: SQLiteDriver
+      DBS_DEFAULT_DB_DRIVER: org.sqlite.JDBC
+      DBS_DEFAULT_DB_URL: '"jdbc:sqlite:"./cerebro.db'
+      HOSTS: >
+        ES1,http://es1:9200
+        ES2,http://es2:9200
+    # Show rendered application.conf to debug it
+    # command: showconf
+  es1:
+    image: elasticsearch:5.2-alpine
+    command: -E node.name="es1" -E discovery.zen.ping.unicast.hosts="es2:9300" -E transport.host="0.0.0.0" -E discovery.zen.minimum_master_nodes=1
+    ports:
+      - '19200:9200'
+    environment:
+      ES_JAVA_OPTS: -Xms750m -Xmx750m
+  es2:
+    image: elasticsearch:5.2-alpine
+    command: -E node.name="es2" -E discovery.zen.ping.unicast.hosts="es1:9300" -E transport.host="0.0.0.0" -E discovery.zen.minimum_master_nodes=1
+    ports:
+      - '29200:9200'
+    environment:
+      ES_JAVA_OPTS: -Xms750m -Xmx750m

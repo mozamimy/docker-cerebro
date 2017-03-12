@@ -1,0 +1,18 @@
+sudo: required
+services:
+  - docker
+script:
+  - docker-compose build
+env:
+  DOCKER_COMPOSE_VERSION: 1.11.2
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" &&
+    docker tag mozamimy/cerebro `cat VERSION` &&
+    docker push mozamimy/cerebro:latest &&
+    docker push mozamimy/cerebro:`cat VERSION`
+    fi
+notifications:
+  on_success: always
+  on_failure: always
+  on_start: false

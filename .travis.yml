@@ -3,12 +3,15 @@ services:
   - docker
 script:
   - docker build -t mozamimy/cerebro .
+env:
+  APP: mozamimy/cerebro
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" &&
-    docker tag mozamimy/cerebro `cat VERSION` &&
-    docker push mozamimy/cerebro:latest &&
-    docker push mozamimy/cerebro:`cat VERSION`;
+    docker tag $APP $APP:`cat VERSION` &&
+    docker push $APP:`cat VERSION` &&
+    docker tag $APP $APP:latest &&
+    docker push mozamimy/cerebro:latest ;
     fi
 notifications:
   on_success: always

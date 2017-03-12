@@ -6,7 +6,7 @@ script:
 env:
   REPOSITORY: mozamimy/cerebro
 after_success:
-  - if [ "$TRAVIS_TAG" != "master" ]; then
+  - if [ "$TRAVIS_TAG" != "" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" &&
     docker tag $REPOSITORY $REPOSITORY:`cat VERSION` &&
     docker push $REPOSITORY:`cat VERSION` &&

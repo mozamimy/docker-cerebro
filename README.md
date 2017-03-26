@@ -15,6 +15,7 @@ Set following environment variables and run container,
 - `DBS_DEFAULT_DRIVER` (optional)
 - `DBS_DEFAULT_DB_DRIVER` (optional)
 - `DBS_DEFAULT_DB_URL` (optional)
+- `REST_HISTORY_SIZE` (optional, default 50)
 
 Variables started with `DBS_` cannot be changed to something other than SQLite, but it is provided for when drivers other than sqlite are supported in the future.
 

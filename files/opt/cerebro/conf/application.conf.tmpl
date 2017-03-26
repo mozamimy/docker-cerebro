@@ -1,7 +1,5 @@
 play.crypto.secret = "{{ var "APPLICATION_SECRET" }}"
 play.i18n.langs = ["en"]
-play.modules.enabled += "controllers.auth.Module"
-play.modules.enabled += "elastic.ElasticModule"
 pidfile.path = "/dev/null"
 
 hosts = [
@@ -13,6 +11,8 @@ hosts = [
   },
 {{ end }}
 ]
+
+rest.history.size = {{ var "REST_HISTORY_SIZE" | default "50" }}
 
 slick.dbs.default.driver = "slick.driver.{{ var "DBS_DEFAULT_DRIVER" | default "SQLiteDriver" }}$"
 slick.dbs.default.db.driver = {{ var "DBS_DEFAULT_DB_DRIVER" | default "org.sqlite.JDBC" }}

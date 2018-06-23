@@ -2,7 +2,7 @@ FROM java:openjdk-8u111-jre
 LABEL maintainer "mozamimy (Moza USANE) <alice@mozami.me>"
 
 ARG ENTRYKIT_VERSION=0.4.0
-ARG VERSION=0.8.0
+ARG VERSION=0.8.1
 ARG URL=https://github.com/lmenezes/cerebro.git
 ARG TIMEZONE=Asia/Tokyo
 

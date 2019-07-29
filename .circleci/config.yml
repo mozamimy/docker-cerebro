@@ -7,7 +7,8 @@ executors:
 
 jobs:
   build_and_push_docker_image:
-    executor: 'docker'
+    executor:
+      name: 'docker'
     environment:
       DOCKER_USER: 'mozamimy'
       IMAGE_NAME: 'mozamimy/cerebro'

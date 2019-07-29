@@ -1,0 +1,34 @@
+version: 2.1
+
+executors:
+  default:
+    docker:
+      - image: 'docker:18.09'
+
+jobs:
+  build_and_push_docker_image:
+    executor: 'docker'
+    environment:
+      DOCKER_USER: 'mozamimy'
+      IMAGE_NAME: 'mozamimy/cerebro'
+    steps:
+      - 'checkout'
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: 'docker build --tag mozamimy/salmon:latest --tag mozamimy/salmon:${CIRCLE_TAG:1} --tag mozamimy/salmon:${CIRCLE_SHA1} .'
+      - run: 'docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}'
+      - run: 'docker push ${IMAGE_NAME}:latest'
+      - run: 'docker push ${IMAGE_NAME}:${CIRCLE_TAG:1}'
+      - run: 'docker push ${IMAGE_NAME}:${CIRCLE_SHA1}'
+
+workflows:
+  version: 2
+  # This workflow is invoked when a vX.Y.Z tag is pushed.
+  release:
+    jobs:
+      - build_and_push_docker_image:
+          filters:
+            branches:
+              ignore: '/.*/'
+            tags:
+              only: '/^v\d+\.\d+\.\d+/'

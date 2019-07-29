@@ -1,7 +1,7 @@
 version: 2.1
 
 executors:
-  default:
+  docker:
     docker:
       - image: 'docker:18.09'
 

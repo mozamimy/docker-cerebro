@@ -13,8 +13,7 @@ jobs:
       IMAGE_NAME: 'mozamimy/cerebro'
     steps:
       - 'checkout'
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - 'setup_remote_docker'
       - run: 'docker build --tag ${IMAGE_NAME}:latest --tag ${IMAGE_NAME}:${CIRCLE_TAG:1} --tag ${IMAGE_NAME}:${CIRCLE_SHA1} .'
       - run: 'docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}'
       - run: 'docker push ${IMAGE_NAME}:latest'
